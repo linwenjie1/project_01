@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <!-- 导入页面的基本样式 -->
+  <link rel="stylesheet" href="css/search.css" />
+  <!-- 导入 jQuery -->
+  <script src="js/JQuery.js"></script>
+  <!-- 导入模板引擎 -->
+  <script src="js/template-web.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Logo -->
+    <img src="picture/taobao_logo.png" alt="" class="logo" />
+
+    <div class="box">
+      <!-- tab 栏 -->
+      <div class="tabs">
+        <div class="tab-active">宝贝</div>
+        <div>店铺</div>
+      </div>
+      <!-- 搜索区域（搜索框和搜索按钮） -->
+      <div class="search-box">
+        <input id="ipt" type="text" class="ipt" placeholder="请输入要搜索的内容" />
+        <button class="btnSearch">
+          搜索
+        </button>
+      </div>
+      <!-- 搜索建议列表 -->
+      <div id="suggest-list"></div>
+    </div>
+  </div>
+        <!-- //定义模板 -->
+        <script type="text/html" id="addList">
+            {{each result}}
+            <div id="suggest-item">{{$value[0]}}</div>
+            {{/each}}
+        </script>    
+
+        <script>
+                      var cacheObj={};
+                    var timeout=null;
+                function Search(value){ 
+                    timeout=setTimeout(function(){
+                        if(cacheObj[value]){
+                                addTemplate(cacheObj[value],null);
+                            }else{
+                               getSource(value);
+                            }
+                    },500);
+                }
+
+                    //监听事件
+                    $('#ipt').on('keyup',function(){
+                        clearTimeout(timeout);
+                        var value=$(this).val().trim();
+                            if(value.length<=0){
+                                $('#suggest-list').hide().empty();
+                                 return;
+                            }
+                            console.log(value);
+                            Search(value);
+                    });
+                    // 请求资源
+                    function getSource(value){
+                        $.ajax({
+                                async:false,
+                                dataType:'jsonp',
+                                url:'https://suggest.taobao.com/sug?q='+value,
+                                success:function(res){
+                                    addTemplate(res,value);
+                                    //不能有return
+                                }
+                            });
+                    }
+                    //添加模板到标签中
+                    function addTemplate(res,value){
+                        console.log(res+" "+value);
+                        if(res.result.length<=0){
+                        $('#suggest-list').hide().empty();
+                                return;
+                        }
+                        var List=template('addList',res);
+                        $('#suggest-list').empty().append(List).show();
+                        if(value!=null){
+                            cacheObj[value]=res;
+                        console.log(cacheObj);
+                        }
+                        
+                    }
+        </script>
+</body>
+
+</html>
