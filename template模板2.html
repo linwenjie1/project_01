@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script src="js/JQuery.js"></script>
+<script src="js/template-web.js"></script>
+    <script type="text/html" id="a">
+                
+                <table class="table table-hover" >
+                    <thead>
+                        <tr>
+                            <th>{{username}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{sex}}</td>
+                            <td>{{@ h1}}</td>
+                            
+                                    {{if flag!=0}}
+                                    <td> {{flag}}</td>
+                                    {{else}}
+                                    <td>{{id}}</td>
+                                    {{/if}}
+
+                                    {{each arry}}
+                                        <td>{{$index}},{{$value}}</td>
+                                       {{/each}} 
+
+                                    <td>{{dilter | getTime}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>  
+    </script>
+   
+    <script >
+
+        // template.default.imports.a=function(dilter){
+        //     return dilter;
+        // }
+
+          template.defaults.imports.getTime=function(dilter){
+            var a=dilter.getFullYear(); 
+            var b=dilter.getMonth()+1;
+            var c=dilter.getDate();
+                return a +"-"+b+"-"+c;
+            }
+
+            var data={
+                username:'linwenje',
+                sex:'x',
+                id:'123',
+                h1:'<h1></h1>',
+                flag:0,
+                arry:[1,2,3,4],
+                dilter:new Date()
+            };
+                var as=template('a',data);
+                console.log(as);
+                $('body').append(as);
+                
+    </script>
+</html>

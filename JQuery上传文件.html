@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <input type="file" name="" id="file1">
+        <button id="btnSubmit">提交</button>
+        <img src="C:\Users\小黑\Pictures\壁纸\214956-16159025964d98.jpg" alt="" style="display: none;">
+</body>
+<script src="js/JQuery.js"></script>
+    <script>
+            $(function(){
+                $(document).ajaxStart(function(){
+                    $('img').show();
+                });
+
+                $(document).ajaxStop(function(){
+                    $('img').hide();
+                });
+
+                $('#btnSubmit').on('click',function(){
+                    var data=$('#file1')[0].files;
+                    if(data.length<=0){
+                        return alert('请选择文件');
+                    }
+                    var fd=new FormData();
+                    fd.append('avatar',data[0]);
+                    $.ajax({
+                        method:'post',
+                        url:'http://www.liulongbin.top:3006/api/upload/avatar',
+                        data:fd,
+                        processData:false,
+                        contentType:false,
+                        success:function(res){
+                            console.log(res)
+                            alert('上传文件成功！');
+                        }
+                    });
+                    
+                });
+            })
+    </script>
+</html>

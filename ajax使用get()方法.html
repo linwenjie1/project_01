@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <button id="a">点击添加数据</button>
+</body>
+<script src="js/JQuery.js"></script>
+<script>
+        //    $('#a').on('click',function(){
+        //     $.get('http://www.liulongbin.top:3006/api/getbooks',{bookname:"西游记"},function(res){
+        //             console.log(res);
+        //     });
+        //    });
+
+        //    $('#a').on('click',function(){
+        //     $.post('http://www.liulongbin.top:3006/api/addbook',{bookname:"天气之子",author:"新海诚",publisher:"日本"},function(res){
+        //             console.log(res);
+        //     });
+        //    });
+
+        // $(function(){
+        //         $('#a').on('click',function(){
+        //                 $.ajax({
+        //                         type:'GET',
+        //                         url:'http://www.liulongbin.top:3006/api/getbooks',
+        //                         data:{},
+        //                         success:function(res){console.log(res);}
+        //                 });
+        //         });
+        // })
+
+        $(function(){
+                $('#a').click(function(){
+                        $.ajax({
+                                type:'post',                            
+                                url:'http://www.liulongbin.top:3006/api/addbook',
+                                data:{bookname:'超体',author:'新海2',publisher:"日1"},
+                                success:function(res){
+                                        console.log(res);
+                                }
+                        });
+                });
+        });
+</script>
+</html>

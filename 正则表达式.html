@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src="js/JQuery.js"></script>
+<!-- <script src="js/template-web.js"></script> -->
+<script src="js/template.js"></script>
+
+    <script type="text/html" id="template1">
+                <div>姓名：{{name}}</div>
+                <div>年龄{{age}}</div>
+                <div>性别：{{sex}}</div>
+                <div>住址：{{address}}</div>
+    </script>
+
+<script>
+
+
+            var data={
+                name:'林文杰',
+                age:20,
+                sex:'男',
+                address:'福建省福州市'
+            };
+
+                   var htmlText= template('template1',data);
+                   $('body').append(htmlText);
+            // var str='<div>我是{{name}}/div>';
+            // var pattern=/{{([a-zA-Z]+)}}/;
+            // var result=pattern.exec(str);
+            // console.log(str.replace(result[0],result[1]));
+
+            // var str='<div>我是{{name}}/div>  <div>我是{{ age }}/div>';
+            // var pattern=/{{\s*([a-zA-Z]+)\s*}}/
+            // var result=pattern.exec(str);
+            // str=str.replace(result[0],result[1]);
+            // console.log(str);
+            // var result=pattern.exec(str);
+            // str=str.replace(result[0],result[1]);
+            // console.log(str);
+            // result=pattern.exec(str);
+            // console.log(result);
+        
+
+                // var data={
+                //     name:"linwenjei",
+                //     age:20
+                // };
+                // var str='<div>我的名字是{{name}},今年我{{ age }}</div>';
+                // var pattern=/{{\s*([a-zA-Z]+)\s*}}/;
+
+
+                // var result=pattern.exec(str);
+                // str=str.replace(result[0],data.name);
+                // console.log(str);    
+                // var result=null;
+                // while(result=pattern.exec(str)){
+                //         str=str.replace(result[0],data[result[1]]);
+                // }
+                // console.log(str);
+
+</script>
+</html>

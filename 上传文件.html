@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+        <!-- 定义标签 -->
+            <input type="file" id="file">
+           <button id="btnUpload">上传</button>
+           <img src="" alt="" id="picture">
+           <div class="progress" id="a" style="width: 300px;height: 20px;">
+            <div class="progress-bar progress-bar-striped active" style="width: 0px; " id="b">  
+             0%
+            </div>
+          </div>
+</body>
+<script src="js/JQuery.js"></script>
+        <script>
+            // 为按钮添加判断是否选择文件事件
+                    var btnUpload=document.querySelector('#btnUpload');
+                    btnUpload.addEventListener('click',function(){
+                        var arry=document.querySelector('#file').files;
+                        if(arry.length<=0){
+                                alert('请选择文件！');
+                        }else{
+                            console.log("选择了文件");
+
+            //定义FormData来操作页面标签选择的文件                
+                            var formData=new FormData();
+                            formData.append('avatar',arry[0]);
+            //使用js原生ajax                
+                            var xhr=new XMLHttpRequest();
+
+            //执行过程中执行事件                
+                            xhr.upload.onprogress=function(e){
+                                if(e.lengthComputable){
+                                    var Perent=Math.ceil((e.loaded/e.total)*100) ;
+                                  $('#b').attr('style','width:'+Perent+"%;").html(Perent+"%");
+                                    console.log(Perent);
+                                }
+
+            // 加载完成后执行事件
+                            xhr.upload.onload=function(){
+                                $('#b').removeClass();
+                                $('#b').addClass('progress-bar progress-bar-success');
+                            }    
+
+
+                            }
+                            xhr.open('post','http://www.liulongbin.top:3006/api/upload/avatar');
+                            xhr.send(formData);
+            // 监听事件                
+                            xhr.onreadystatechange=function(){
+                                if(xhr.readyState==4 && xhr.status==200){
+                                    var data=JSON.parse(xhr.responseText);
+                                    if(data.status==200){
+                                        
+                                            alert('上传成功!');
+                                            document.querySelector('#picture').src='http://www.liulongbin.top:3006'+data.url;
+                                    }else{
+                                        alert('上传失败!');
+                                    }
+                                }
+                            }
+                        }
+                    });
+        </script>
+</html>

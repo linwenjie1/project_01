@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+                <p id="a"></p>
+</body>
+<script src="js/JQuery.js"></script>
+<script src="js/template-web.js"></script>
+    <!-- 模板 -->
+            <script type="text/html" id="template1">
+                        <h1>{{name}} ----{{sex}}</h1>
+            </script>
+    <script>
+                var data={
+                    name:'林文捷',
+                    sex:'男'
+                };
+                var date=template('template1',data);
+                console.log(date);
+                $('#a').append(date);
+    </script>
+</html>

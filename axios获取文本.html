@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <button id="btn"></button>
+</body>
+<script src="js/axios.js"></script>
+    <script>
+                var axios1=document.querySelector('#btn');
+                axios1.addEventListener('click',function(){
+                   var data={name:'厦门',age:'集美'};
+                    // axios.get('http://www.liulongbin.top:3006/api/getbooks',data).then(function(res){
+                    //     console.log(res.data);
+                    // });
+
+                        // axios.post('http://www.liulongbin.top:3006/api/post',{params:data}).then(function(res){console.log(res.data);});
+
+                        axios({
+                            method:'get',
+                            url:'http://www.liulongbin.top:3006/api/jsonp',
+                            data:data,
+
+                        }).then(function(res){
+                                console.log(res.data);
+                        });
+                });
+    </script>
+</html>

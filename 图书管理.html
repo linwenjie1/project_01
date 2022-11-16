@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body style="padding: 15px;">
+        
+        <div class="panel panel-primary" >
+              <div class="panel-heading">
+                    <h3 class="panel-title">添加图书</h3>
+              </div>
+              <div class="panel-body form-inline" >
+                   
+                   <div class="input-group">
+                        <div class="input-group-addon">书名</div>
+                        <input type="text" class="form-control" id="bookName" placeholder="请输入书名">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-addon">作者</div>
+                        <input type="text" class="form-control" id="bookAuthor" placeholder="请输入作者名">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-addon">出版社</div>
+                        <input type="text" class="form-control" id="bookPublisher" placeholder="请输入出版社">
+                    </div>
+                    
+
+                   <button id="bookButton" class="btn btn-primary">添加</button>
+                   
+              </div>
+        </div>
+
+
+        
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>书名</th>
+                    <th>作者</th>
+                    <th>出版社</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="body1">
+               
+            </tbody>
+        </table>
+        
+        
+</body>
+        <script src="js/JQuery.js"></script>
+        <script>
+                $(function(){
+                        $('#b').on('click',function(){
+                                
+                        });
+
+                        function getBooks(){
+                            $.get('http://www.liulongbin.top:3006/api/getbooks',function(res){
+                                if(res.status !=200){return alert("获取失败");}
+                                var row=[];
+                                $.each(res.data,function(index,element){
+                                    row.push("<tr><td>"+element.id+"</td><td>"+element.bookname+"</td><td>"+element.author+"</td><td>"+element.publisher+"</td><td><a data-id="+res.data[index].id+">删除</a></td></tr>");
+                                    $('#body1').empty().append(row.join(""));
+                                });
+                            });
+                        }
+
+                        getBooks();
+
+                        $('tbody').on('click','a',function(){
+                            var index=$(this).attr('data-id');
+                            console.log(index);
+                            $.get('http://www.liulongbin.top:3006/api/delbook',{id:index},function(res){
+                                if(res.status !=200){
+                                    return alert('删除失败！');
+                                }else{
+                                    $(this).parent().parent().remove();
+                                    return alert('删除成功!');
+                                }
+                            });
+                        });
+
+                        $('#bookButton').click(function(){      
+                            var text1=$('#bookName').val().trim();
+                            var text2=$('#bookAuthor').val().trim();
+                            var text3=$('#bookPublisher').val().trim();
+                            if(text1.length>0 && text2.length>0 && text3.length>0){
+                                console.log(text1+" "+text2);
+                                    $.post('http://www.liulongbin.top:3006/api/addbook',{
+                                        bookname:text1,
+                                        author:text2,
+                                        publisher:text3
+                                    },function(res){
+                                        if(res.status>=200 && res.status<=300){
+                                            alert('添加成功!');
+                                        }
+                                    });
+                            }else{return alert('请完善添加的信息！')}
+                        });
+
+                })
+        </script>
+</html>
